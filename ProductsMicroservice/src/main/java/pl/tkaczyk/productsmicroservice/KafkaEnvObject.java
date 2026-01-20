@@ -14,6 +14,4 @@ public class KafkaEnvObject {
     private String keySerializer;
     private String valueSerializer;
     private String acks;
-
-    private Map<String, Object> properties = new HashMap<>();
 }

@@ -1,4 +1,4 @@
-package pl.tkaczyk.productsmicroservice.service;
+package pl.tkaczyk.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
