@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ProductsMicroservice" />
         <module name="core" />
+        <module name="mockservice" />
       </profile>
       <profile name="Annotation profile for EmailNotificationService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -26,6 +27,7 @@
       <module name="EmailNotificationService" options="-parameters" />
       <module name="ProductsMicroservice" options="-parameters" />
       <module name="core" options="-parameters" />
+      <module name="mockservice" options="-parameters" />
     </option>
   </component>
 </project>
