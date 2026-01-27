@@ -2,6 +2,7 @@ package pl.tkaczyk.productsmicroservice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -29,10 +30,14 @@ public class ProductServiceImpl implements ProductService {
                 product.getPrice(),
                 product.getQuantity());
 
-        SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send(
+        ProducerRecord<String, ProductCreatedEvent> record = new ProducerRecord<>(
                 "product-created-events-topic",
                 productId,
-                productCreatedEvent).get();
+                productCreatedEvent
+        );
+        record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
+
+        SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send(record).get();
         log.info("Partition: " + result.getProducerRecord().partition());
         log.info("Offset: " + result.getRecordMetadata().offset());
         log.info("Topic: " + result.getProducerRecord().topic());

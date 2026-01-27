@@ -7,9 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ProductsMicroservice" />
         <module name="core" />
         <module name="mockservice" />
+        <module name="ProductsMicroservice" />
       </profile>
       <profile name="Annotation profile for EmailNotificationService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -21,13 +21,19 @@
         <module name="EmailNotificationService" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="DepositService" target="17" />
+      <module name="transfers" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="DepositService" options="-parameters" />
       <module name="EmailNotificationService" options="-parameters" />
       <module name="ProductsMicroservice" options="-parameters" />
       <module name="core" options="-parameters" />
       <module name="mockservice" options="-parameters" />
+      <module name="transfers" options="-parameters" />
     </option>
   </component>
 </project>

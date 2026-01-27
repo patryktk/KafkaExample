@@ -2,17 +2,23 @@ package pl.tkaczyk.emailnotificationservice.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
-import pl.tkaczyk.core.ProductCreatedEvent;
 import pl.tkaczyk.emailnotificationservice.error.NotRetryableException;
 import pl.tkaczyk.emailnotificationservice.error.RetryableException;
+import pl.tkaczyk.emailnotificationservice.io.ProcessedEventEntity;
+import pl.tkaczyk.emailnotificationservice.io.ProcessedEventRepository;
 
 @Component
 @KafkaListener(topics = "product-created-events-topic")
@@ -21,12 +27,23 @@ import pl.tkaczyk.emailnotificationservice.error.RetryableException;
 public class ProductCreatedEventHandler {
 
     private final RestTemplate restTemplate;
+    private final ProcessedEventRepository processedEventRepository;
 
     @KafkaHandler
-    public void handle(ProductCreatedEvent productCreatedEvent) {
-//        if(true) throw new NotRetryableException("An error took place. No need to consume this message again.");
+    @Transactional
+    public void handle(
+            @Payload ProductCreatedEvent productCreatedEvent,
+            @Header(value = "messageId") String messageId,
+            @Header(KafkaHeaders.RECEIVED_KEY) String messageKey
+    ) {
+        log.info("Received message: " + productCreatedEvent.getTitle() + " with productId " + productCreatedEvent.getProductId());
 
-        log.info("Received message: " + productCreatedEvent.getTitle());
+        ProcessedEventEntity existingRecord = processedEventRepository.findByMessageId(messageId);
+
+        if (existingRecord != null) {
+            log.info("Message with messageId " + messageId + " already processed.");
+            return;
+        }
 
         String requestUrl = "http://localhost:8082/response/200";
         try {
@@ -43,6 +60,12 @@ public class ProductCreatedEventHandler {
         } catch (Exception e) {
             log.error("Unknown exception: " + e.getMessage());
             throw new NotRetryableException(e);
+        }
+
+        try {
+            processedEventRepository.save(new ProcessedEventEntity(messageId, productCreatedEvent.getProductId()));
+        } catch (DataIntegrityViolationException ex) {
+            throw new NotRetryableException(ex);
         }
     }
 }
