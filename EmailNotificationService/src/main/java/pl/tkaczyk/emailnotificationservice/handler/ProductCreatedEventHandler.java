@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+import pl.tkaczyk.core.ProductCreatedEvent;
 import pl.tkaczyk.emailnotificationservice.error.NotRetryableException;
 import pl.tkaczyk.emailnotificationservice.error.RetryableException;
 import pl.tkaczyk.emailnotificationservice.io.ProcessedEventEntity;
