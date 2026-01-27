@@ -8,21 +8,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="core" />
-        <module name="mockservice" />
         <module name="ProductsMicroservice" />
+        <module name="mockservice" />
       </profile>
-      <profile name="Annotation profile for EmailNotificationService" enabled="true">
+      <profile name="Annotation profile for DepositService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
+        <module name="DepositService" />
         <module name="EmailNotificationService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="DepositService" target="17" />
       <module name="transfers" target="17" />
     </bytecodeTargetLevel>
   </component>
