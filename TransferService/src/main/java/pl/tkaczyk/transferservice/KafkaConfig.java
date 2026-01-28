@@ -3,17 +3,21 @@ package pl.tkaczyk.transferservice;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.transaction.KafkaTransactionManager;
 
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConfig {
 
 	@Value("withdraw-money-topic")
@@ -49,6 +53,8 @@ public class KafkaConfig {
 	@Value("${spring.kafka.producer.properties.max.in.flight.requests.per.connection}")
 	private int inflightRequests;
 
+	private final Environment environment;
+
 	public Map<String, Object> producerConfigs() {
 		Map<String, Object> props = new HashMap<>();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -62,6 +68,8 @@ public class KafkaConfig {
 		props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, idempotence);
 		props.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, inflightRequests);
 
+		props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, environment.getProperty("spring.kafka.producer.transaction-id-prefix"));
+
 		return props;
 	}
 
@@ -71,8 +79,13 @@ public class KafkaConfig {
 	}
 
 	@Bean
-	KafkaTemplate<String, Object> kafkaTemplate() {
-		return new KafkaTemplate<String, Object>(producerFactory());
+	KafkaTemplate<String, Object> kafkaTemplate(ProducerFactory<String, Object> producerFactory) {
+		return new KafkaTemplate<String, Object>(producerFactory);
+	}
+
+	@Bean
+	KafkaTransactionManager<String, Object> transactionManager(ProducerFactory<String, Object> producerFactory) {
+		return new KafkaTransactionManager<>(producerFactory);
 	}
 
 	@Bean

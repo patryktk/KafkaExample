@@ -11,18 +11,21 @@
         <module name="ProductsMicroservice" />
         <module name="mockservice" />
       </profile>
-      <profile name="Annotation profile for DepositService" enabled="true">
+      <profile name="Annotation profile for WithdrawalService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
+        <module name="WithdrawalService" />
+        <module name="TransferService" />
         <module name="DepositService" />
         <module name="EmailNotificationService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="mockService2" target="17" />
       <module name="transfers" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -31,7 +34,10 @@
       <module name="DepositService" options="-parameters" />
       <module name="EmailNotificationService" options="-parameters" />
       <module name="ProductsMicroservice" options="-parameters" />
+      <module name="TransferService" options="-parameters" />
+      <module name="WithdrawalService" options="-parameters" />
       <module name="core" options="-parameters" />
+      <module name="mockService2" options="-parameters" />
       <module name="mockservice" options="-parameters" />
       <module name="transfers" options="-parameters" />
     </option>

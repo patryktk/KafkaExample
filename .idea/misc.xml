@@ -11,7 +11,14 @@
         <option value="$PROJECT_DIR$/TransferService/pom.xml" />
         <option value="$PROJECT_DIR$/DepositService/pom.xml" />
         <option value="$PROJECT_DIR$/First/EmailNotificationService/pom.xml" />
+        <option value="$PROJECT_DIR$/mockService2/pom.xml" />
+        <option value="$PROJECT_DIR$/WithdrawalService/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/mockService2/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="openjdk-25" project-jdk-type="JavaSDK">

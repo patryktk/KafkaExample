@@ -6,7 +6,9 @@
     <file url="file://$PROJECT_DIR$/First/EmailNotificationService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ProductsMicroservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/TransferService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WithdrawalService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mockService2/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mockservice/src/main/java" charset="UTF-8" />
   </component>
 </project>
