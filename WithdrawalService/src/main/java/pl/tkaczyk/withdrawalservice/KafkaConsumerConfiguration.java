@@ -43,6 +43,7 @@ public class KafkaConsumerConfiguration {
         config.put(
                 JacksonJsonDeserializer.TRUSTED_PACKAGES,
                 environment.getProperty("spring.kafka.consumer.properties.spring.json.trusted.packages"));
+        config.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, environment.getProperty("spring.kafka.consumer.isolation-level"));
 
         return new DefaultKafkaConsumerFactory<>(config);
     }
